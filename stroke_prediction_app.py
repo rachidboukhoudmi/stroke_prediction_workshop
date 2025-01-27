@@ -16,8 +16,11 @@ st.sidebar.header("User Input Features")
 def user_input_features():
     gender = st.sidebar.selectbox("Gender", ("Male", "Female"))
     age = st.sidebar.slider("Age", 0, 100, 30)
-    hypertension = st.sidebar.selectbox("Hypertension", (0, 1))  # 0 = No, 1 = Yes
-    heart_disease = st.sidebar.selectbox("Heart Disease", (0, 1))  # 0 = No, 1 = Yes
+    
+    # Change hypertension and heart disease to 'Yes'/'No'
+    hypertension = st.sidebar.selectbox("Hypertension", ("No", "Yes"))
+    heart_disease = st.sidebar.selectbox("Heart Disease", ("No", "Yes"))
+    
     ever_married = st.sidebar.selectbox("Ever Married", ("Yes", "No"))
     work_type = st.sidebar.selectbox("Work Type", 
                                      ("Private", "Self-employed", "Govt_job", "Children", "Never_worked"))
@@ -33,6 +36,10 @@ def user_input_features():
     work_type_map = {"Private": 0, "Self-employed": 1, "Govt_job": 2, "Children": 3, "Never_worked": 4}
     residence_type = 1 if residence_type == "Urban" else 0
     smoking_status_map = {"formerly smoked": 0, "never smoked": 1, "smokes": 2, "Unknown": 3}
+    
+    # Map hypertension and heart disease
+    hypertension = 1 if hypertension == "Yes" else 0
+    heart_disease = 1 if heart_disease == "Yes" else 0
     
     work_type = work_type_map[work_type]
     smoking_status = smoking_status_map[smoking_status]
@@ -56,4 +63,4 @@ if st.button("Predict"):
         st.write(f"Probability of stroke: **{prediction_prob:.2f}**")
     else:
         st.write(f"### Prediction: ✅ Low risk of stroke.")
-        st.write(f"Probability of stroke: **{prediction_prob:.2f}**")
+        st.write(f"Probability of stroke: **{prediction_prob:.2f}**") 
