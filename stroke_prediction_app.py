@@ -28,14 +28,14 @@ def user_input_features():
     avg_glucose_level = st.sidebar.slider("Average Glucose Level", 50.0, 300.0, 100.0)
     bmi = st.sidebar.slider("BMI", 10.0, 60.0, 25.0)
     smoking_status = st.sidebar.selectbox("Smoking Status", 
-                                          ("formerly smoked", "never smoked", "smokes", "Unknown"))
+                                          ("formerly smoked", "never smoked", "smokes"))
     
     # Map categorical inputs to numerical values as per model preprocessing
     gender = 1 if gender == "Male" else 0
     ever_married = 1 if ever_married == "Yes" else 0
     work_type_map = {"Private": 0, "Self-employed": 1, "Govt_job": 2, "Children": 3, "Never_worked": 4}
     residence_type = 1 if residence_type == "Urban" else 0
-    smoking_status_map = {"formerly smoked": 0, "never smoked": 1, "smokes": 2, "Unknown": 3}
+    smoking_status_map = {"formerly smoked": 0, "never smoked": 1, "smokes": 2}
     
     # Map hypertension and heart disease
     hypertension = 1 if hypertension == "Yes" else 0
@@ -55,12 +55,16 @@ input_data = user_input_features()
 
 # Predict stroke
 if st.button("Predict"):
-    prediction = model.predict(input_data)
     prediction_prob = model.predict_proba(input_data)[0][1]  # Probability of stroke
 
-    if prediction == 1:
-        st.write(f"### Prediction: ⚠️ High risk of stroke!")
-        st.write(f"Probability of stroke: **{prediction_prob:.2f}**")
+    # Determine the risk level based on custom thresholds
+    if prediction_prob < 0.15:
+        risk_level = "✅ Low risk of stroke."
+    elif 0.15 <= prediction_prob < 0.45:
+        risk_level = "⚠️ Medium risk of stroke."
     else:
-        st.write(f"### Prediction: ✅ Low risk of stroke.")
-        st.write(f"Probability of stroke: **{prediction_prob:.2f}**") 
+        risk_level = "⚠️ High risk of stroke!"
+
+    # Display results
+    st.write(f"### Prediction: {risk_level}")
+    st.write(f"Probability of stroke: **{prediction_prob:.2f}**")
