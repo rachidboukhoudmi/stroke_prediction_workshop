@@ -1,0 +1,10 @@
+Python ==3.11.7
+pandas==1.5.3
+matplotlib==3.7.5
+numpy==1.23.5
+seaborn==0.13.2
+xgboost==1.6.2
+imbalanced-learn==0.12.3
+scikit-learn==1.4.2
+# to install all of these package tap this command in terminal of vs code :
+# pip install -r requirements.txt
